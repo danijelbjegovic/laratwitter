@@ -7,8 +7,12 @@ use App\Post;
 
 class PostController extends Controller
 {
-    public function posts()
+    public function store(Request $request, Post $post)
     {
-        return $this->hasMany(Post::class);
+        $newPost = $request->user()->posts()->create([
+            'body' => $request->get('body')
+        ]);
+
+        return response()->json($post->with('user')->find($newPost->id));
     }
 }

@@ -1,13 +1,12 @@
-// FormComponent.vue
-
 <template>
     <div class="col-md-4">
-        <form>
+        <form @submit.prevent="saveTweet">
             <div class="form-group">
                 <textarea 
                     class="form-control" 
                     rows="8" cols="8" 
-                    maxlength="130" 
+                    maxlength="130"
+                    v-model="body"
                     required>
                 </textarea>
             </div>
@@ -20,7 +19,25 @@
     </div>
 </template>
 <script>
+import Event from '../event.js';
 export default {
-    
+    data(){
+        return {
+            body: ''
+        }
+    },
+    methods: {
+        saveTweet(){
+            axios.post('/tweet/save', {
+                body: this.body
+            })
+            .then(res =>{
+                console.log(res.data)
+            })
+            .catch(e=>{
+                console.log(e);
+            })
+        }
+    }
 }
 </script>
