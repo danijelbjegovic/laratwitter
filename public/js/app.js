@@ -24956,8 +24956,6 @@ module.exports = function normalizeComponent (
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-// event.js
-
 
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vue___default.a());
@@ -47382,19 +47380,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            body: ''
+            body: '',
+            postData: {}
         };
     },
 
     methods: {
         saveTweet: function saveTweet() {
+            var _this = this;
+
             axios.post('/tweet/save', {
                 body: this.body
             }).then(function (res) {
-                console.log(res.data);
+                _this.postData = res.data;
+                __WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* default */].$emit('added_tweet', _this.postData);
             }).catch(function (e) {
                 console.log(e);
             });
+            this.body = '';
         }
     }
 });
@@ -47549,8 +47552,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var _this = this;
 
+        axios.get('/posts').then(function (resp) {
+            _this.posts = resp.data;
+        });
         __WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* default */].$on('added_tweet', function (post) {
             _this.posts.unshift(post);
+            console.log(post);
         });
     }
 });

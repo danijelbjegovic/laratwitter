@@ -23,20 +23,27 @@ import Event from '../event.js';
 export default {
     data(){
         return {
-            body: ''
+            body: '',
+            postData: {}
         }
     },
     methods: {
         saveTweet(){
+
             axios.post('/tweet/save', {
                 body: this.body
             })
             .then(res =>{
-                console.log(res.data)
+                this.postData = res.data
+                Event.$emit('added_tweet', this.postData)
             })
             .catch(e=>{
                 console.log(e);
             })
+            this.body = ''
+            
+
+
         }
     }
 }

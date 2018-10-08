@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
-
+use App\User;
 class PostController extends Controller
 {
     public function index(Request $request, Post $post)
@@ -16,8 +16,8 @@ class PostController extends Controller
                         ->orderBy('created_at', 'desc')
                         ->take($request->get('limit', 10))
                         ->get();
+          
         return response()->json($posts);
-        
     }
     public function store(Request $request, Post $post)
     {
@@ -27,4 +27,5 @@ class PostController extends Controller
 
         return response()->json($post->with('user')->find($newPost->id));
     }
+
 }
