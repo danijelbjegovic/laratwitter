@@ -54,6 +54,10 @@ class User extends Authenticatable
         }
         return !$this->isFollowing($user);
     }
+    public function canUnFollow($user)
+    {
+        return $this->isFollowing($user);
+    }
 
     public function getRouteKeyName()
     {
